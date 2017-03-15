@@ -4,11 +4,11 @@ import requests
 from regexp_string import *
 
 
-
 class QiuShiBaiKeText35:
 
     db_name = 'qiu_shi_bai_ke_text35.db'
     conn = None
+    items_list = []
 
     def prepare(self):
         """
@@ -36,6 +36,8 @@ class QiuShiBaiKeText35:
         :param max_page: 最大页码,不设置则为99999
         :return: PiuShiBaiKeText35对象本身
         """
+
+        self.items_list = []
 
         self.conn = sqlite3.connect(self.db_name)
         self.__qiu_shi_text(max_page)
@@ -88,6 +90,9 @@ class QiuShiBaiKeText35:
                 # 内容
                 article_content = RegExpString(item).search_with_pattern(
                     r'(?<=<span>).+(?=</span>)').search_result
+
+                self.items_list.append((("http://www.qiushibaike.com/article/%s" % article_id), article_content))
+
                 article_content = RegExpString(article_content).replace_with_pattern(r'<br/>',
                                                                                      "\n").replace_result
 
