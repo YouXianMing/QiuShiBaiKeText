@@ -13,13 +13,13 @@ for url, content in qiu_shi.items_list:
     total_str += string
 
 # 打开本地pattern.html模板
-all_the_data = open(Dir().file_name("pattern.html").path, 'rb').read().decode('utf-8')
+all_the_data = open(File.path(suffix_path='pattern.html'), 'rb').read().decode('utf-8')
 
 # 进行文本替换
 html_text = RegExpString(all_the_data).replace_with_pattern(r'######', total_str).replace_result
 
 # 开始写文件
-file = open(Dir().file_name('qiu_shi.html').path, 'w')
+file = open(File.path(suffix_path='qiu_shi.html'), 'w')
 file.write(html_text)
 file.close()
 

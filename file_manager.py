@@ -3,30 +3,27 @@ import time
 
 
 class FileObject:
-    """
-    文件对象
-    """
+    """文件对象"""
 
     def __init__(self, filePath):
-        """
-        创建FileObject对象
+        """创建FileObject对象
         :param filePath: 文件路径
         """
 
-        self.__tree_file_objects = None
-        self.__scan_depth = None
+        self.__tree_file_objects = []
+        self.__scan_depth = 0
 
         self.__exists = False
-        self.__file_path = None
-        self.__is_file = None
-        self.__is_dir = None
-        self._is_link = None
-        self.__size = None
-        self.__last_modification_time = None
-        self.__last_access_time = None
-        self.__metadata_change_time = None
-        self.__file_name = None
-        self.__dir_name = None
+        self.__file_path = ''
+        self.__is_file = False
+        self.__is_dir = False
+        self._is_link = False
+        self.__size = 0
+        self.__last_modification_time = 0
+        self.__last_access_time = 0
+        self.__metadata_change_time = 0
+        self.__file_name = ''
+        self.__dir_name = ''
 
         if os.path.exists(filePath):
 
@@ -43,15 +40,13 @@ class FileObject:
             self.__file_name = os.path.basename(filePath)
             self.__dir_name = os.path.dirname(filePath)
 
-            if self.__is_dir:
-                self.__tree_file_objects = []
-
     @property
     def scan_depth(self):
+        """扫描深度
+        :return: :class:`int <int>` object
+        :rtype: int
         """
-        扫描深度的设置
-        :return: 设置的扫描深度
-        """
+
         return self.__scan_depth
 
     @scan_depth.setter
@@ -60,102 +55,105 @@ class FileObject:
 
     @property
     def tree_file_objects(self):
-        """
-        树形对象结构列表
+        """树形对象结构列表
         :return: 数组
         """
         return self.__tree_file_objects
 
     @tree_file_objects.setter
     def tree_file_objects(self, fileList):
+        """树形文件列表
+        :return: :class:`list <list>` object
+        :rtype: list
+        """
 
         self.__tree_file_objects = fileList
 
     @property
     def exists(self):
-        """
-        文件是否存在
-        :return: 存在返回True,不存在返回False
+        """文件是否存在
+        :return: :class:`bool <bool>` object
+        :rtype: bool
         """
         return self.__exists
 
     @property
     def file_path(self):
-        """
-        文件路径(初始化成功之后可取)
-        :return: 初始化成功则有路径,没有初始化成功则没有路径
+        """文件路径
+        :return: :class:`str <str>` object
+        :rtype: str
         """
         return self.__file_path
 
     @property
     def is_file(self):
-        """
-        是否是文件(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,是文件返回True,不是文件返回False
+        """是否是文件
+        :return: :class:`bool <bool>` object
+        :rtype: bool
         """
         return self.__is_file
 
     @property
     def is_dir(self):
-        """
-        是否是文件夹(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,是文件夹返回True,不是文件返回False
+        """是否是文件夹
+        :return: :class:`bool <bool>` object
+        :rtype: bool
         """
         return self.__is_dir
 
     @property
     def is_link(self):
-        """
-        是否是link(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,是link返回True,不是文件返回False
+        """是否是link
+        :return: :class:`bool <bool>` object
+        :rtype: bool
         """
         return self._is_link
 
     @property
     def size(self):
-        """
-        文件大小(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回文件大小
+        """文件大小
+        :return: :class:`int <int>` object
+        :rtype: int
         """
         return self.__size
 
     @property
     def last_modification_time(self):
-        """
-        最后修改时间(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回最后修改时间
+        """最后修改时间
+        :return: :class:`int <int>` object
+        :rtype: int
         """
         return self.__last_modification_time
 
     @property
     def last_access_time(self):
-        """
-        最后操作时间(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回最后操作时间
+        """最后操作时间
+        :return: :class:`int <int>` object
+        :rtype: int
         """
         return self.__last_access_time
 
     @property
     def metadata_change_time(self):
-        """
-        最后元数据修改时间(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回最后元数据修改时间
+        """最后元数据修改时间
+        :return: :class:`int <int>` object
+        :rtype: int
         """
         return self.__metadata_change_time
 
     @property
     def file_name(self):
-        """
-        文件名(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回文件名
+        """文件名
+        :return: :class:`str <str>` object
+        :rtype: str
         """
         return self.__file_name
 
     @property
     def dir_name(self):
-        """
-        文件夹名(初始化成功之后可取)
-        :return: 未初始化成功返回None,初始化成功时,返回文件夹名
+        """文件夹名
+        :return: :class:`str <str>` object
+        :rtype: str
         """
         return self.__dir_name
 
@@ -178,11 +176,18 @@ class FileObject:
             string += "------------------------------------------\n"
             print(string)
 
+    @staticmethod
+    def item(item):
+        """转换引用,方便外部使用
+        :return: :class:`FileObject <FileObject>` object
+        :rtype: FileObject
+        """
+
+        return item
+
 
 class FileObjectManager:
-    """
-    用来扫描FileObject的类
-    """
+    """用来扫描FileObject的类"""
 
     def __init__(self, rootFile):
 
@@ -192,9 +197,9 @@ class FileObjectManager:
             self.rootFile = rootFile
 
     def all_file_objects(self):
-        """
-        获取扫描出来的文件
-        :return: 扫描文件的数组
+        """获取扫描出来的文件
+        :return: :class:`list <list>` object
+        :rtype: list
         """
 
         filesList = []
@@ -205,10 +210,10 @@ class FileObjectManager:
         return filesList
 
     def scan_with_depth(self, depth=999999):
-        """
-        开始扫描
+        """开始扫描
         :param depth: 扫描深度
-        :return: FileObjectManager对象本身
+        :return: :class:`FileObjectManager <FileObjectManager>` object
+        :rtype: FileObjectManager
         """
 
         if self.rootFile:
@@ -221,8 +226,7 @@ class FileObjectManager:
 
     @staticmethod
     def __get_all_files(rootFile, filesList):
-        """
-        静态方法:获取所有文件
+        """静态方法:获取所有文件
         :param rootFile: FileObject对象,作为rootFile传入
         :param filesList: 集合
         :return: 无
@@ -244,8 +248,7 @@ class FileObjectManager:
 
     @staticmethod
     def __scan_with_depth(rootFile, depth):
-        """
-        静态方法:递归使用的扫描方法
+        """静态方法:递归使用的扫描方法
         :param rootFile: 最为rootFile的FileObject对象
         :param depth: 扫描深度
         :return: 无
@@ -278,33 +281,22 @@ class FileObjectManager:
                     FileObjectManager.__scan_with_depth(file, depth)
 
 
-class Dir:
+class File:
 
-    def __init__(self, dir_path=None):
-
-        self.__dir_path = dir_path
-        self.__result_path = os.getcwd()
-
-    @property
-    def path(self):
-        """
-        文件路径
+    @staticmethod
+    def path(prefix_path=None, suffix_path=None):
+        """拼接文件路径
+        :param prefix_path: 文件前缀
+        :param suffix_path: 文件后缀
         :return: :class:`str <str>` object
         :rtype: str
         """
-        return self.__result_path
 
-    def file_name(self, file_name):
-
-        dir_path = None
-
-        if not self.__dir_path:
-            dir_path = os.getcwd()
+        if prefix_path and suffix_path:
+            return os.path.join(prefix_path, suffix_path)
+        elif prefix_path and not suffix_path:
+            return prefix_path
+        elif not prefix_path and suffix_path:
+            return os.path.join(os.getcwd(), suffix_path)
         else:
-            dir_path = self.__dir_path
-
-        self.__result_path = os.path.join(dir_path, file_name)
-
-        return self
-
-
+            return os.getcwd()
