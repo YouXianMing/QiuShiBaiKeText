@@ -1,0 +1,16 @@
+@font-face {
+    font-family: "xiao wan zi";
+    src: url("./新蒂小丸子体.ttf");
+}
+
+body {
+    font-family: "xiao wan zi";
+    margin-left: 20%;
+    margin-right: 20%;
+    border: 1px dotted red;
+    padding: 10px 10px 10px 10px;
+}
+
+a {
+    text-decoration: none;
+}
